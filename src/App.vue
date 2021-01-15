@@ -1,5 +1,6 @@
 <template>
-  <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : 'cold'">
+  <div id="app"
+       :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? (weather.weather[0].main==='Clear' ? 'warmClear' : 'warmCloudy') : 'coldClear'">
     <main>
       <div class="search-box">
         <input
@@ -10,7 +11,6 @@
             @keypress="fetchWeather"
         />
       </div>
-
 
       <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
         <div class="location-box">
@@ -76,14 +76,29 @@ body {
 }
 
 #app {
-  background-image: url('./assets/cold.png');
+  background-image: url('https://p.favim.com/orig/2019/03/10/plants-nature-beautiful-Favim.com-6981490.gif');
   background-size: cover;
   background-position: bottom;
   transition: 0.4s;
 }
 
-#app.warm {
-  background-image: url('./assets/warm.png');
+#app.warmCloudy {
+  background-image: url('https://s11.favim.com/orig/7/759/7591/75916/colors-clowds-sky-Favim.com-7591634.jpg');
+}
+
+#app.warmClear {
+  background-image: url('https://c.tadst.com/gfx/750w/barcelona-morning-sky.jpg?1');
+}
+
+#app.coldClear {
+  background-image: url('https://p.favim.com/orig/2019/03/10/plants-nature-beautiful-Favim.com-6981490.gif');
+}
+
+#app.coldCloudy {
+  background-image: url('https://cdn6.dissolve.com/p/D1023_69_006/D1023_69_006_0004_600.jpg');
+}
+#app.coldSnowy {
+  background-image: url('https://i.giphy.com/media/BDucPOizdZ5AI/giphy.webp');
 }
 
 main {

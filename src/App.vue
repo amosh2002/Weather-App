@@ -1,6 +1,6 @@
 <template>
   <div id="app"
-       :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? (weather.weather[0].main==='Clear' ? 'warmClear' : 'warmCloudy') : 'coldClear'">
+       :class="imageClassName">
     <main>
       <div class="search-box">
         <input
@@ -35,10 +35,46 @@ export default {
       api_key: '7dbc614d8fe5ba304db218feb212dbac',
       url_base: 'https://api.openweathermap.org/data/2.5/',
       query: '',
-      weather: {}
+      weather: {},
+      imageClassName: 'warmClear',
     }
   },
   methods: {
+    imageClassDefiner() {
+      if (typeof this.weather.main === 'undefined') {
+        return this.imageClassName
+      }
+      if (this.weather.main.temp > 16) {
+        switch (this.weather.weather[0].main) {
+          case 'Clear':
+            return 'warmClear'
+          case 'Clouds':
+            return 'warmCloudy'
+          case 'Haze':
+            return 'haze'
+          case 'Rain':
+            return 'rainy'
+        }
+      } else {
+        switch (this.weather.weather[0].main) {
+          case 'Clear':
+            return 'coldClear'
+          case 'Clouds':
+            return 'coldCloudy'
+          case 'Snow':
+            return 'coldSnowy'
+          case 'Haze':
+            return 'haze'
+          case 'Rain':
+            return 'rainy'
+          case 'Fog':
+            return 'fog'
+          case 'Mist':
+            return 'fog'
+        }
+      }
+
+    },
     fetchWeather(e) {
       if (e.key === "Enter") {
         fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
@@ -49,6 +85,7 @@ export default {
     },
     setResults(results) {
       this.weather = results;
+      this.imageClassName = this.imageClassDefiner()
     },
     dateBuilder() {
       let d = new Date();
@@ -62,6 +99,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style>
@@ -76,7 +114,6 @@ body {
 }
 
 #app {
-  background-image: url('https://p.favim.com/orig/2019/03/10/plants-nature-beautiful-Favim.com-6981490.gif');
   background-size: cover;
   background-position: bottom;
   transition: 0.4s;
@@ -90,15 +127,28 @@ body {
   background-image: url('https://c.tadst.com/gfx/750w/barcelona-morning-sky.jpg?1');
 }
 
+#app.rainy {
+  background-image: url('https://i.pinimg.com/originals/18/60/75/186075bcc9258e646ee74f84b411839e.jpg');
+}
+
+#app.haze {
+  background-image: url('https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/FQPQPJX64AI6TA2BZQ644UXH3Y.jpg');
+}
+
+#app.fog {
+  background-image: url('https://images.unsplash.com/photo-1504335089263-e69fcfef931e?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8Zm9nZ3klMjBza3l8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80');
+}
+
 #app.coldClear {
-  background-image: url('https://p.favim.com/orig/2019/03/10/plants-nature-beautiful-Favim.com-6981490.gif');
+  background-image: url('https://i.pinimg.com/originals/df/ef/8c/dfef8cd82e08673c4f13389c4906ef8b.jpg');
 }
 
 #app.coldCloudy {
-  background-image: url('https://cdn6.dissolve.com/p/D1023_69_006/D1023_69_006_0004_600.jpg');
+  background-image: url('https://ak.picdn.net/shutterstock/videos/1031166308/thumb/1.jpg');
 }
+
 #app.coldSnowy {
-  background-image: url('https://i.giphy.com/media/BDucPOizdZ5AI/giphy.webp');
+  background-image: url('https://images-na.ssl-images-amazon.com/images/I/71O0j3OF5TL._AC_SL1024_.jpg');
 }
 
 main {
@@ -125,7 +175,7 @@ main {
   background: none;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
   background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 0px 16px 0px 16px;
+  border-radius: 16px;
   transition: 0.4s;
 }
 

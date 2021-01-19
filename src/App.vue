@@ -24,7 +24,8 @@
         </div>
       </div>
     </main>
-  </div>
+    </div>
+
 </template>
 
 <script>
@@ -39,12 +40,13 @@ export default {
       imageClassName: 'warmClear',
     }
   },
+
   methods: {
     imageClassDefiner() {
       if (typeof this.weather.main === 'undefined') {
         return this.imageClassName
       }
-      if (this.weather.main.temp > 16) {
+      if (this.weather.main.temp > 14) {
         switch (this.weather.weather[0].main) {
           case 'Clear':
             return 'warmClear'
@@ -54,6 +56,10 @@ export default {
             return 'haze'
           case 'Rain':
             return 'rainy'
+          case 'Fog':
+            return 'fog'
+          case 'Mist':
+            return 'fog'
         }
       } else {
         switch (this.weather.weather[0].main) {
@@ -128,7 +134,7 @@ body {
 }
 
 #app.rainy {
-  background-image: url('https://i.pinimg.com/originals/18/60/75/186075bcc9258e646ee74f84b411839e.jpg');
+  background-image: url('https://armenpress.am/static/news/b/2020/02/1006680.jpg');
 }
 
 #app.haze {
@@ -148,7 +154,7 @@ body {
 }
 
 #app.coldSnowy {
-  background-image: url('https://images-na.ssl-images-amazon.com/images/I/71O0j3OF5TL._AC_SL1024_.jpg');
+  background-image: url('https://i.ytimg.com/vi/kJGjueu-s0U/maxresdefault.jpg');
 }
 
 main {
